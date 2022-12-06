@@ -13,7 +13,7 @@ let test2Answers = [ 19; 23; 23; 29; 26 ]
 let tests1 = Seq.zip testinputs test1Answers
 let tests2 = Seq.zip testinputs test2Answers
 
-let part1 windowSize (input: string) =
+let solve windowSize (input: string) =
     let toIndex c = (c |> int) - ('a' |> int)
     let alphabetSize = toIndex 'z' - toIndex 'a' + 1
     let lookupTable = Array.replicate alphabetSize 0
@@ -40,22 +40,26 @@ let part1 windowSize (input: string) =
 
     foo + windowSize
 
+let part1 = solve 4
+
+let part2 = solve 14
+
 tests1
 |> Seq.iter (fun (input, answer) ->
-    let testresult = part1 4 input
+    let testresult = part1 input
     assert (testresult = answer))
 
-let part1result = part1 4 input
+let part1result = part1 input
 printfn "%d" part1result
 let part1Answer = 1658
 assert (part1result = part1Answer)
 
 tests2
 |> Seq.iter (fun (input, answer) ->
-    let testresult = part1 14 input
+    let testresult = part2 input
     assert (testresult = answer))
 
-let part2result = part1 14 input
+let part2result = part2 input
 printfn "%d" part2result
 let part2Answer = 2260
 assert (part2result = part2Answer)
