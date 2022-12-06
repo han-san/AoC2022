@@ -13,13 +13,13 @@ let testinput =
       "move 2 from 2 to 1"
       "move 1 from 1 to 2" ]
 
-let rec splitOnEmptyStringHelper part1 part2 =
-    match part2 with
-    | "" :: xs -> List.rev part1, xs
-    | x :: xs -> splitOnEmptyStringHelper (x :: part1) xs
+let rec splitFirstListHelper (head: list<'T>) (splitValue: 'T) (tail: list<'T>) : list<'T> * list<'T> =
+    match tail with
+    | x :: xs when x = splitValue -> List.rev head, xs
+    | x :: xs -> splitFirstListHelper (x :: head) splitValue xs
     | _ -> failwith "bad input"
 
-let splitOnEmptyString = splitOnEmptyStringHelper []
+let splitFirst splitValue list = splitFirstListHelper [] splitValue list
 
 let initstate (strings: list<string>) =
     strings
@@ -116,8 +116,8 @@ let part2 stateInput movesInput =
 
 
 
-let teststateInput, testmovesInput = splitOnEmptyString testinput
-let stateInput, movesInput = splitOnEmptyString input
+let teststateInput, testmovesInput = splitFirst "" testinput
+let stateInput, movesInput = splitFirst "" input
 
 let testpart1Answer = "CMZ"
 let testpart1Result = part1 teststateInput testmovesInput
