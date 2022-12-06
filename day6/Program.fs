@@ -24,7 +24,7 @@ let solve windowSize (input: string) =
     |> Seq.take (windowSize - 1)
     |> Seq.iter (fun i -> lookupTable[i] <- lookupTable[i] + 1)
 
-    let foo =
+    let markerStartIndex =
         (indexInput
          |> Seq.windowed windowSize
          |> Seq.map (fun window ->
@@ -40,7 +40,7 @@ let solve windowSize (input: string) =
                 |> Seq.tail
                 |> Seq.forall (fun c -> lookupTable[c] = 1)))
 
-    foo + windowSize
+    markerStartIndex + windowSize
 
 let part1 = solve 4
 
