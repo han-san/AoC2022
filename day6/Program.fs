@@ -18,25 +18,27 @@ let solve windowSize (input: string) =
     let alphabetSize = toIndex 'z' - toIndex 'a' + 1
     let lookupTable = Array.replicate alphabetSize 0
 
-    input
+    let indexInput = input |> Seq.map toIndex
+
+    indexInput
     |> Seq.take (windowSize - 1)
-    |> Seq.iter (fun c -> lookupTable[toIndex c] <- lookupTable[toIndex c] + 1)
+    |> Seq.iter (fun i -> lookupTable[i] <- lookupTable[i] + 1)
 
     let foo =
-        (input
+        (indexInput
          |> Seq.windowed windowSize
          |> Seq.map (fun window ->
-             let headIndex = toIndex (window[0])
-             let tailIndex = toIndex (window[windowSize - 1])
+             let headIndex = window[0]
+             let tailIndex = window[windowSize - 1]
 
              lookupTable[headIndex] <- lookupTable[headIndex] - 1
              lookupTable[tailIndex] <- lookupTable[tailIndex] + 1
              window)
          |> Seq.findIndex (fun window ->
-             lookupTable[toIndex window[0]] = 0
+             lookupTable[window[0]] = 0
              && window
                 |> Seq.tail
-                |> Seq.forall (fun c -> lookupTable[toIndex c] = 1)))
+                |> Seq.forall (fun c -> lookupTable[c] = 1)))
 
     foo + windowSize
 
